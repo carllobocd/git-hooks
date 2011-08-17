@@ -11,12 +11,15 @@ foreach ($files as $file) {
 	if (!preg_match('@\.php$@', $file)) {
 		continue;
 	}
-	if (preg_match('@\.test\.php$@', $file)) {
+	if (preg_match('@(?:\.test|Test)\.php$@', $file)) {
 		$test = $file;
 	} else {
 		$test = preg_replace('@\.php$@', '.test.php', $file);
 		if (!file_exists($test)) {
-			continue;
+			$test = 'tests/' . preg_replace('@\.php$@', 'Test.php', $file);
+			if (!file_exists($test)) {
+				continue;
+			}
 		}
 	}
 
