@@ -7,13 +7,9 @@ $config = config();
 $files = files();
 $tmp = copyFiles($files);
 
-if (empty($tmp['files'])) {
-	echo "No files to check\n";
-	exit(0);
-}
 if ($tmp['dir'] && !is_dir($tmp['dir'])) {
-	echo "{$tmp['dir']} doesn't exist\n";
-	exit(1);
+	echo "{$tmp['dir']} doesn't exist, nothing to do\n";
+	exit(0);
 }
 
 $config = $config['php']['lint'];

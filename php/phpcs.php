@@ -6,8 +6,8 @@ $config = config();
 $files = files();
 $tmp = copyFiles($files);
 if (!is_dir($tmp['dir'])) {
-	echo "{$tmp['dir']} doesn't exist\n";
-	exit(1);
+	echo "{$tmp['dir']} doesn't exist, nothing to do\n";
+	exit(0);
 }
 
 $args = $config['php']['phpcs'];
