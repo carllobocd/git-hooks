@@ -4,4 +4,4 @@
 dest=/usr/local/bin
 src=`pwd`
 
-sudo ln -s $src/installGitHooks $dest && chmod +x $dest/installGitHooks
+sudo ln -s $src/git-hooks $dest/ -f && chmod +x $dest/git-hooks
