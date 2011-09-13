@@ -41,10 +41,9 @@ function testCase($file) {
 			}
 		}
 	} elseif ($return['category'] === 'core') {
-		$return['testFile'] = preg_replace('@.*lib[\\\/]Cake[\\\/]@', 'lib/Cake/Test/Case/', $return['case']) . 'Test.php';
-
 		$return['case'] = preg_replace('@.*lib[\\\/]Cake[\\\/]@', '', $return['case']);
 		$return['case'][0] = strtoupper($return['case'][0]);
+		$return['testFile'] = 'lib/Cake/Test/Case/' . $return['case'] . 'Test.php';
 	} else {
 		$return['testFile'] = preg_replace(
 			'@(.*)((?:(?:config|Console|Controller|Lib|locale|Model|plugins|Test|vendors|View|webroot)[\\\/]).*$|App[-a-z]*$)@',
@@ -110,13 +109,22 @@ function testCases($files = null) {
 
 function runTestCases($files = null) {
 	$exit = 0;
+
+    if (file_exists('app/Console/cake')) {
+        $prefix = 'app/Console/';
+    } elseif (file_exists('Console/cake')) {
+        $prefix = 'Console/';
+    } else {
+        $prefix = '';
+    }
+
 	foreach(testCases($files) as $category => $cases) {
 		foreach(array_keys($cases) as $case) {
 			if (strpos($case, 'All') === 0 || strpos($case, '/All')) {
 				continue;
 			}
 			$output = array();
-			$cmd = "cake testsuite $category $case --stderr 2>&1";
+			$cmd = "{$prefix}cake testsuite $category $case --stderr 2>&1";
 			$time = date("H:i:s");
 			echo "[$time] $cmd ... \t";
 			exec($cmd, $output, $return);
