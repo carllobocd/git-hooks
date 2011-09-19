@@ -7,7 +7,7 @@ usage() {
 }
 
 install() {
-	src=`dirname $(readlink $0)`
+	src='%sourcedir%'
 	dryrun=
 	ignore='(^\.|^config\.php$|^install|\.txt$|README.md|~$)'
 

@@ -44,6 +44,7 @@ all:
 install:
 	install -d -m 0755 $(prefix)/bin
 	install -m 0755 $(EXEC_FILES) $(prefix)/bin
+	sed -i s@%sourcedir%@$(CURDIR)@ $(prefix)/bin/git-hooks
 
 uninstall:
 	test -d $(prefix)/bin && \
