@@ -23,6 +23,10 @@ OR include this repo in your path
 This will symlink the commands you might want to use into your .git/hooks folder, link all git hooks to the one-hook file, and create a config file which you can use to customize how the hooks work
 for each project
 
+# Optional dependencies
+
+If you want to use the CakePHP coding standard for PHPCodeSniffer, you can find it here: http://github.com/AD7six/cakephp-codesniffs
+
 # Credits
 
 This repo originally came from http://github.com/s0enke/git-hooks
