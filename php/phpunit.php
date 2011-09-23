@@ -23,6 +23,10 @@ foreach ($files as $file) {
 		}
 	}
 
+	if (!file_exists($test)) {
+		continue;
+	}
+
 	$cmd = "phpunit --stop-on-failure " . escapeshellarg($test);
 	$output = array();
 	echo "$cmd\n";
