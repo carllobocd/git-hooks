@@ -37,6 +37,8 @@ function config($branch = null)  {
 /**
  * Return an array of relative file paths for files contained in the commit
  *
+ * If the file doesn't exist - it's stripped from the returned list of files
+ *
  * If called outside the context of a git hook, return all files
  *
  */
@@ -62,6 +64,7 @@ function files() {
 		sort($output);
 		return array_filter($output);
 	}
+
 	exec('git rev-parse --verify HEAD 2> /dev/null', $output, $return);
 	if ($return === 0) {
 		$against = 'HEAD';
@@ -71,11 +74,12 @@ function files() {
 
 	$output = array();
 	exec("git diff-index --cached --name-only $against", $output);
+
 	if (!$output && $against === 'HEAD') {
 		exec("git diff-index --cached --name-only HEAD^", $output);
 	}
 
-	return array_filter($output);
+	return array_filter($output, 'file_exists');
 }
 
 /**
