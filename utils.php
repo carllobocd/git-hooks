@@ -71,6 +71,9 @@ function files() {
 
 	$output = array();
 	exec("git diff-index --cached --name-only $against", $output);
+	if (!$output && $against === 'HEAD') {
+		exec("git diff-index --cached --name-only HEAD^", $output);
+	}
 
 	return array_filter($output);
 }
