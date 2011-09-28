@@ -23,6 +23,7 @@ $cmd = "phpcs " . implode($args, ' ') . " " . escapeshellarg($tmp['dir']);
 echo "$cmd\n";
 exec($cmd, $output, $return);
 if ($return != 0) {
+    $output = str_replace($tmp['dir'] . '/', '', $output);
 	echo implode("\n", $output), "\n";
 	exit(1);
 }
