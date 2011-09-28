@@ -118,6 +118,7 @@ function copyFiles($files, $name = null) {
 
 	if (!trim(`echo \$GIT_DIR`) && !trim(`echo \$GIT_AUTHOR_NAME`)) {
 		`cp -R . $tmpDir`;
+		`rm -rf $tmpDir/.git`;
 		return $return;
 	}
 
