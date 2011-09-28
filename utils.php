@@ -106,7 +106,6 @@ function copyFiles($files, $name = null) {
 		}
 		$return['files'][] = "$tmpDir/$file";
 	}
-
 	if (
 		file_exists("/$tmpDir.lock") &&
 		is_dir($tmpDir) &&
@@ -115,10 +114,10 @@ function copyFiles($files, $name = null) {
 		return $return;
 	}
 
-	`rm -rf /tmp/$name`;
+	`rm -rf $tmpDir`;
 
 	if (!trim(`echo \$GIT_DIR`) && !trim(`echo \$GIT_AUTHOR_NAME`)) {
-		`cp -R . /tmp/$name`;
+		`cp -R . $tmpDir`;
 		return $return;
 	}
 
