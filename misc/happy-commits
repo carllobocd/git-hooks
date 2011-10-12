@@ -1,6 +1,5 @@
 #!/usr/bin/env php
 <?php
-
 // From: http://collectiveidea.com/blog/archives/2010/08/03/happy-git-commits/
 $dir = __DIR__;
 if (`uname` === 'Darwin') {
