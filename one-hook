@@ -25,13 +25,7 @@ foreach ($config[$file] as $command => $halt) {
     exec(".git/hooks/$command", $output, $return);
     if ($return) {
         echo "FAIL\n";
-        if (file_exists('.git/hooks/misc/fail.mp3')) {
-            if (`uname` === 'Darwin') {
-                `afplay .git/hooks/misc/fail.mp3 > /dev/null 2>&1 &`;
-            } else {
-                `play .git/hooks/misc/fail.mp3 > /dev/null 2>&1 &`;
-            }
-        }
+        `misc/playFail`;
 		$exit = 1;
         echo implode("\n", $output) . "\n";
 		if ($halt) {

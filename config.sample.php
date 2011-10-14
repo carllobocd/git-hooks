@@ -29,7 +29,7 @@ $config = array(
 			'images/optimize.php',
 		),
 		'post-commit' => array(
-			'misc/happy-commits',
+			'misc/playSuccess',
 		),
 		'post-merge' => array(
 			'php/lint.php',

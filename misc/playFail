@@ -1,0 +1,11 @@
+#!/bin/bash
+HERE=$( cd "$( dirname "$0" )" && pwd )
+dir="$HERE/fail"
+file=`ls -1 "$dir" | sort -R | head -1`
+if [[ `uname` = 'Darwin' ]]; then
+    command=afplay
+else
+    command=play
+fi
+
+`$command $dir/$file > /dev/null 2>&1 &`
