@@ -2,7 +2,7 @@
 <?php
 // From: http://collectiveidea.com/blog/archives/2010/08/03/happy-git-commits/
 $dir = __DIR__;
-if (!file_exists("$dir/success.mp3")) {
+if (!file_exists('success.mp3')) {
     `ln -s $dir/happykids.wav $dir/success.mp3`;
 }
 if (`uname` === 'Darwin') {
