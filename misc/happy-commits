@@ -3,9 +3,9 @@
 // From: http://collectiveidea.com/blog/archives/2010/08/03/happy-git-commits/
 $dir = __DIR__;
 if (`uname` === 'Darwin') {
-    $command = "afplay $dir/happykids.wav > /dev/null 2>&1 &";
+    $command = "afplay $dir/success/happykids.wav > /dev/null 2>&1 &";
 } else {
-    $command = "play $dir/happykids.wav > /dev/null 2>&1 &";
+    $command = "play $dir/success/happykids.wav > /dev/null 2>&1 &";
 }
 exec($command);
 exit(0);
