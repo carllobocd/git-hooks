@@ -25,7 +25,8 @@ foreach ($config[$file] as $command => $halt) {
     exec(".git/hooks/$command", $output, $return);
     if ($return) {
         echo "FAIL\n";
-        `misc/playFail`;
+        $dir = dirname($_SERVER['SCRIPT_FILENAME']);
+        `$dir/misc/playFail`;
 		$exit = 1;
         echo implode("\n", $output) . "\n";
 		if ($halt) {
