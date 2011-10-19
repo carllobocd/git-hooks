@@ -90,8 +90,8 @@ hooks. Branch-specific tests allow you to be quite selective, for example:
 
 The above example uses [git-flow](http://jeffkreeftmeijer.com/2010/why-arent-you-using-git-flow/),
 if you aren't familiar with git flow - it's quite simple. Master is always stable and the latest
-release, features are developed in their own branch, when features are completed they are merged
-into develop, when it's time for a new version, a release branch is made from develop, any last 
+release; features are developed in their own branch; when features are completed they are merged
+into develop; when it's time for a new version, a release branch is made from develop, any last 
 minute changes are made (generate changelog, bump version file), and then merged to master.
 
 In this case, we have 3 hooks, one to lint (check for parse errors), test (run test cases for only
