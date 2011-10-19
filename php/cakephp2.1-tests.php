@@ -4,27 +4,26 @@
 require $_SERVER['PWD'] . '/.git/hooks/utils.php';
 
 function testFile($file) {
-	if (!preg_match('@\.php$@', $file) || preg_match('@(config|test_app)[\\\/]@', $file)) {
+	if (!preg_match('@\.php$@', $file) || preg_match('@(Config|test_app)[\\\/]@', $file)) {
 		return false;
 	}
-	if (preg_match('@tests[\\\/]@', $file)) {
+	if (preg_match('@Test[\\\/]@', $file)) {
 		if (!preg_match('@\Test\.php$@', $file)) {
 			return false;
 		}
 		$file = str_replace('Test.php', '.php', $file);
 
 		if (preg_match('@.*lib[\\\/]Cake[\\\/]@', $file)) {
-			return preg_replace('@.*tests[\\\/]cases[\\\/]@', 'lib' . DS . 'Cake' . DS, $file);
+			return preg_replace('@.*Test[\\\/]Case[\\\/]@', 'lib' . DIRECTORY_SEPARATOR . 'Cake' . DIRECTORY_SEPARATOR, $file);
 		}
-		return preg_replace('@.*tests[\\\/]cases[\\\/]@', '', $file);
+		return preg_replace('@.*Test[\\\/]Case[\\\/]@', '', $file);
 	}
 	return $file;
 }
 
 $files = files();
-$filename_pattern = '/\.(php)$/';
 $toTest = array();
-$exit_status = 0;
+$exit = 0;
 
 foreach ($files as $file) {
 	$file = testFile($file);
@@ -35,16 +34,24 @@ foreach ($files as $file) {
 	$toTest[$file] = true;
 }
 
-foreach($toTest as $file) {
+if (file_exists('app/Console/cake')) {
+	$prefix = 'app/Console/';
+} elseif (file_exists('Console/cake')) {
+	$prefix = 'Console/';
+} else {
+	$prefix = '';
+}
+
+foreach($toTest as $file => $_) {
 	$output = array();
-	$cmd = "cake test $file";
+	$cmd = "{$prefix}cake test $file --stderr 2>&1";
 	echo "$cmd\n";
 	exec($cmd, $output, $return);
 
 	if ($return != 0) {
 		echo implode("\n", $output), "\n";
-		$exit_status = 1;
+		$exit = 1;
 	}
 }
 
-exit($exit_status);
+exit($exit);
