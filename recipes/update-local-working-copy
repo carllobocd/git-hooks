@@ -1,0 +1,7 @@
+#!/bin/sh
+# This is an example of a post-receive hook to auto-update a working copy on the same machine
+# see http://serverfault.com/questions/107608/git-post-receive-hook-with-git-pull-failed-to-find-a-valid-git-directory
+# for why you cna't just run git pull with no arguments
+
+cd /working/copy/is/here
+git --git-dir /sites/demo/git/.git pull > /dev/null

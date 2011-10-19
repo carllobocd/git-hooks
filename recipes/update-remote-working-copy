@@ -1,0 +1,6 @@
+#!/bin/sh
+# This is an example of a post-receive hook to auto-update a working copy on a different machine
+# You could also consider a git push someothermachine:/working/copy/is/here - but git will by
+# default prevent that from working, if the branch to update is the checked out branch
+
+ssh someothermachine "cd /working/copy/is/here; git pull > /dev/null"
