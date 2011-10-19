@@ -34,7 +34,12 @@ install() {
 		let i++
 	done
 
-	for f in applypatch-msg commit-msg post-commit post-receive post-update pre-applypatch pre-commit prepare-commit-msg pre-rebase update; do
+	mailHooks="applypatch-msg pre-applypatch post-applypatch"
+	commitHooks="pre-commit prepare-commit-msg commit-msg post-commit"
+	workingcopyHooks="pre-rebase post-checkout post-merge pre-auto-gc"
+	remoteHooks="pre-receive update post-receive post-update"
+	hooks="$workingcopyHooks $commitHooks $mailHooks $remoteHooks"
+	for f in $hooks; do
 		commands[$i]="ln -sf $src/one-hook .git/hooks/$f"
 		let i++
 	done
