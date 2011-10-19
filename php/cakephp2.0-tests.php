@@ -13,7 +13,7 @@ require $_SERVER['PWD'] . '/.git/hooks/utils.php';
  * @return array(type, case)
  */
 function testCase($file) {
-	if (!preg_match('@\.php$@', $file) || preg_match('@(config|test_app)[\\\/]@', $file)) {
+	if (!preg_match('@\.php$@', $file) || preg_match('@(Config|test_app)[\\\/]@', $file)) {
 		return false;
 	}
 
@@ -29,7 +29,7 @@ function testCase($file) {
 		if (preg_match('@Test\.php$@', $file)) {
 			$return['testFile'] = $file;
 			$return['testFileExists'] = true;
-			if ($return['case'] = preg_replace('@.*Test[\\\/]cases[\\\/]@', '', $return['case'])) {
+			if ($return['case'] = preg_replace('@.*Test[\\\/]Case[\\\/]@', '', $return['case'])) {
 				$return['case'] = preg_replace('@Test$@', '', $return['case']);
 				if ($return['category'] === 'core') {
 					$return['case'] = str_replace(
@@ -46,13 +46,13 @@ function testCase($file) {
 		$return['testFile'] = 'lib/Cake/Test/Case/' . $return['case'] . 'Test.php';
 	} else {
 		$return['testFile'] = preg_replace(
-			'@(.*)((?:(?:config|Console|Controller|Lib|locale|Model|plugins|Test|vendors|View|webroot)[\\\/]).*$|App[-a-z]*$)@',
+			'@(.*)((?:?:Config|Console|Controller|Lib|Locale|Model|Plugin|plugins|Test|Vendor|vendors|View|webroot)[\\\/]).*$|App[-a-z]*$)@',
 			'\1Test/Case/\2Test.php',
 			$return['case']
 		);
 
 		$return['case'] = preg_replace(
-			'@.*((?:(?:config|Console|Controller|Lib|locale|Model|plugins|Test|vendors|View|webroot)[\\\/])|App[-a-z]*$)@',
+			'@.*((?:(?:Config|Console|Controller|Lib|Locale|Model|Plugin|plugins|Test|Vendor|vendors|View|webroot)[\\\/])|App[-a-z]*$)@',
 			'\1',
 			$return['case']
 		);
@@ -110,13 +110,13 @@ function testCases($files = null) {
 function runTestCases($files = null) {
 	$exit = 0;
 
-    if (file_exists('app/Console/cake')) {
-        $prefix = 'app/Console/';
-    } elseif (file_exists('Console/cake')) {
-        $prefix = 'Console/';
-    } else {
-        $prefix = '';
-    }
+	if (file_exists('app/Console/cake')) {
+		$prefix = 'app/Console/';
+	} elseif (file_exists('Console/cake')) {
+		$prefix = 'Console/';
+	} else {
+		$prefix = '';
+	}
 
 	foreach(testCases($files) as $category => $cases) {
 		foreach(array_keys($cases) as $case) {
