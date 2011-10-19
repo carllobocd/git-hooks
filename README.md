@@ -66,7 +66,7 @@ hooks. Branch-specific tests allow you to be quite selective, for example:
 
 	<?php 
 	$config = array(
-		'develop/*' => array(
+		'develop' => array(
 			'pre-commit' => array(
 				'project/testCommitedFiles'
 			)
