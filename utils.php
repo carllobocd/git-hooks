@@ -43,6 +43,22 @@ function config($branch = null)  {
  *
  */
 function files() {
+	if (!empty($_SERVER['argv'][1])) {
+		$files = $_SERVER['argv'];
+		array_shift($files);
+
+		$break = false;
+		foreach($files as $file) {
+			if (!is_file($file)) {
+				$break = true;
+				break;
+			}
+		}
+
+		if (!$break) {
+			return $files;
+		}
+	}
 	if (!trim(`echo \$GIT_DIR`) && !trim(`echo \$GIT_AUTHOR_NAME`)) {
 		$where = '.';
 		$locations = func_get_args();
