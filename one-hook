@@ -22,7 +22,11 @@ foreach ($config[$file] as $command => $halt) {
     $output = array();
     $return = 0;
 
-    exec(".git/hooks/$command", $output, $return);
+    if ($command[0] === '`') {
+        exec(trim($command, '`'), $output, $return);
+    } else {
+        exec(".git/hooks/$command", $output, $return);
+    }
     if ($return) {
         echo "FAIL\n";
         $dir = dirname($_SERVER['SCRIPT_FILENAME']);
