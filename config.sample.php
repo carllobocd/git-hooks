@@ -28,6 +28,9 @@ $config = array(
 			'php/phpunit.php',
 			'images/optimize.php',
 		),
+		'prepare-commit-msg' => array(
+			'flow/commitMessageWarn.php'
+		),
 		'post-commit' => array(
 			'misc/playSuccess',
 		),
