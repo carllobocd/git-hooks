@@ -148,7 +148,12 @@ function copyFiles($files, $name = null) {
 
 		$file = escapeshellarg($file);
 
-		`git cat-file blob $(git diff-index --cached HEAD $file | cut -d " " -f4) > $tmpDir/$file`;
+		$blob = trim(`git diff-index --cached HEAD $file | cut -d " " -f4`);
+		if ($blob) {
+			`git cat-file blob $blob > $tmpDir/$file`;
+		} else { // Probably a merge, there is no cached file
+			`git show HEAD:$file > $tmpDir/$file`;
+		}
 	}
 
 	return $return;
