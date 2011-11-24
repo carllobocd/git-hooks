@@ -29,7 +29,7 @@ require $_SERVER['PWD'] . '/.git/hooks/utils.php';
 
 $files = files();
 
-$testDirs = array('tests', 'Tests');
+$testDirs = array('tests', 'Tests', 'test', 'Test');
 $suffixes = array('.test.php', 'Test.php');
 $status = 0;
 
