@@ -29,7 +29,7 @@ $config = array(
 			'images/optimize.php',
 		),
 		'prepare-commit-msg' => array(
-			'flow/commitMessageWarn.php'
+			//'flow/commitMessageWarn.php'
 		),
 		'post-commit' => array(
 			'misc/playSuccess',
