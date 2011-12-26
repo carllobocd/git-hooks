@@ -129,13 +129,13 @@ class Cakephp20HookTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('Console/Command/welcome', $result['case']);
 		$this->assertEquals('plugins/test_plugin_two/Test/Case/Console/Command/welcomeTest.php', $result['testFile']);
 
-		$result = testCase('plugins/test_plugin/config/schema/schema.php');
+		$result = testCase('plugins/test_plugin/Config/schema/schema.php');
 		$this->assertFalse($result);
 
-		$result = testCase('plugins/test_plugin/config/load.php');
+		$result = testCase('plugins/test_plugin/Config/load.php');
 		$this->assertFalse($result);
 
-		$result = testCase('plugins/test_plugin/config/more.load.php');
+		$result = testCase('plugins/test_plugin/Config/more.load.php');
 		$this->assertFalse($result);
 
 		$result = testCase('plugins/test_plugin/View/layouts/default.ctp');
@@ -615,7 +615,7 @@ class Cakephp20HookTest extends PHPUnit_Framework_TestCase {
 		$result = testCase('lib/Cake/bootstrap.php');
 		$this->assertEquals('core', $result['category']);
 		$this->assertEquals('Bootstrap', $result['case']);
-		$this->assertEquals('lib/Cake/Test/Case/bootstrapTest.php', $result['testFile']);
+		$this->assertEquals('lib/Cake/Test/Case/BootstrapTest.php', $result['testFile']);
 
 		$result = testCase('lib/Cake/Core/App.php');
 		$this->assertEquals('core', $result['category']);
@@ -635,7 +635,7 @@ class Cakephp20HookTest extends PHPUnit_Framework_TestCase {
 		$result = testCase('lib/Cake/basics.php');
 		$this->assertEquals('core', $result['category']);
 		$this->assertEquals('Basics', $result['case']);
-		$this->assertEquals('lib/Cake/Test/Case/basicsTest.php', $result['testFile']);
+		$this->assertEquals('lib/Cake/Test/Case/BasicsTest.php', $result['testFile']);
 
 		$result = testCase('lib/Cake/Controller/Component/SecurityComponent.php');
 		$this->assertEquals('core', $result['category']);

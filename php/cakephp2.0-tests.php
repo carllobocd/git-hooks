@@ -13,7 +13,7 @@ require $_SERVER['PWD'] . '/.git/hooks/utils.php';
  * @return array(type, case)
  */
 function testCase($file) {
-	if (!preg_match('@\.php$@', $file) || preg_match('@(Config|test_app)[\\\/]@', $file)) {
+	if (substr($file, -4) !== '.php' || preg_match('@(Config|test_app)[\\\/]@', $file)) {
 		return false;
 	}
 
@@ -46,7 +46,7 @@ function testCase($file) {
 		$return['testFile'] = 'lib/Cake/Test/Case/' . $return['case'] . 'Test.php';
 	} else {
 		$return['testFile'] = preg_replace(
-			'@(.*)((?:?:Config|Console|Controller|Lib|Locale|Model|Plugin|plugins|Test|Vendor|vendors|View|webroot)[\\\/]).*$|App[-a-z]*$)@',
+			'@(.*)((?:(?:Config|Console|Controller|Lib|Locale|Model|Plugin|plugins|Test|Vendor|vendors|View|webroot)[\\\/]).*$|App[-a-z]*$)@',
 			'\1Test/Case/\2Test.php',
 			$return['case']
 		);
