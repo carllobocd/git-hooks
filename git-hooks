@@ -7,11 +7,16 @@ usage() {
 }
 
 install() {
-	src='%sourcedir%'
+	base=
 	dryrun=
+	src='%sourcedir%'
 	ignore='(^\.|^config\.php$|^install|\.txt$|README.md|~$)'
 
-	if [ ! -d .git/hooks ]; then
+	if [ -d .git/hooks ]; then
+		base=.git/hooks
+	elif [ -d hooks ]; then
+		base=hooks
+	else
 		echo "This script needs to be run whilst in the root of your git project"
 		exit 1
 	fi
@@ -24,12 +29,12 @@ install() {
 		fi
 
 		if [[ $f = "config.sample.php" ]]; then
-			if [[ -e .git/hooks/config.php ]]; then
+			if [[ -e $base/config.php ]]; then
 				continue
 			fi
-			commands[$i]="cp $src/$f .git/hooks/config.php"
-		else 
-			commands[$i]="ln -sf $src/$f .git/hooks/"
+			commands[$i]="cp $src/$f $base/config.php"
+		else
+			commands[$i]="ln -sf $src/$f $base/"
 		fi
 		let i++
 	done
@@ -40,7 +45,7 @@ install() {
 	remoteHooks="pre-receive update post-receive post-update"
 	hooks="$workingcopyHooks $commitHooks $mailHooks $remoteHooks"
 	for f in $hooks; do
-		commands[$i]="ln -sf $src/one-hook .git/hooks/$f"
+		commands[$i]="ln -sf $src/one-hook $base/$f"
 		let i++
 	done
 
@@ -56,7 +61,7 @@ install() {
 		${commands[$j]}
 	done
 	echo ""
-	echo "Completed, edit .git/hooks/config.php to modify this repositories hooks"
+	echo "Completed, edit $base/config.php to modify this repositories hooks"
 	exit 0
 }
 
