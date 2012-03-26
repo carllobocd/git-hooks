@@ -23,10 +23,11 @@
  *      Tests
  *
  * The most specific test suite will be run in its entirety instead, in this case `one/two/Tests`
- * 
+ *
  */
 require $_SERVER['PWD'] . '/.git/hooks/utils.php';
 
+$alreadyRan = array();
 $files = files();
 
 $testDirs = array('tests', 'Tests', 'test', 'Test');
@@ -77,7 +78,7 @@ foreach ($files as $file) {
 
 		$testRoots = array_filter($testRoots, 'is_dir');
 		$testPaths = array_filter($testPaths, 'is_dir');
-		
+
 		foreach($testPaths as $testPath) {
 			foreach($suffixes as $suffix) {
 				$testFile = substr($filename, 0, -4) . $suffix;
@@ -88,6 +89,10 @@ foreach ($files as $file) {
 				}
 			}
 		}
+	}
+
+	if (in_array($test, $alreadyRan)) {
+		continue;
 	}
 
 	if (!$test || !file_exists($test)) {
@@ -105,6 +110,7 @@ foreach ($files as $file) {
 		echo implode("\n", $output), "\n";
 		$status = 1;
 	}
+	$alreadyRan[] = $test;
 }
 
 exit($status);
