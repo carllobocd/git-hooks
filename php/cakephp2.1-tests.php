@@ -3,20 +3,21 @@
 
 require $_SERVER['PWD'] . '/.git/hooks/utils.php';
 
-function testFile($file) {
+function getSUT($file) {
 	if (!preg_match('@\.php$@', $file) || preg_match('@(Config|test_app)[\\\/]@', $file)) {
 		return false;
 	}
+
 	if (preg_match('@Test[\\\/]@', $file)) {
-		if (!preg_match('@\Test\.php$@', $file)) {
+		if (substr($file, -8) !== 'Test.php') {
 			return false;
 		}
-		$file = str_replace('Test.php', '.php', $file);
 
 		if (preg_match('@.*lib[\\\/]Cake[\\\/]@', $file)) {
-			return preg_replace('@.*Test[\\\/]Case[\\\/]@', 'lib' . DIRECTORY_SEPARATOR . 'Cake' . DIRECTORY_SEPARATOR, $file);
+			$file = preg_replace('@^(.*)Test([\\\/])Case[\\\/]@', '\1lib\2Cake\2', $file); // Untested
+		} else {
+			$file = preg_replace('@^(.*)Test[\\\/]Case[\\\/](.*)Test.php$@', '\1\2.php', $file);
 		}
-		return preg_replace('@.*Test[\\\/]Case[\\\/]@', '', $file);
 	}
 	return $file;
 }
@@ -26,7 +27,7 @@ $toTest = array();
 $exit = 0;
 
 foreach ($files as $file) {
-	$file = testFile($file);
+	$file = getSUT($file);
 
 	if (!$file) {
 		continue;
@@ -35,14 +36,14 @@ foreach ($files as $file) {
 }
 
 if (file_exists('app/Console/cake')) {
-	$prefix = 'app/Console/';
+	$prefix = 'cd app; Console/';
 } elseif (file_exists('Console/cake')) {
 	$prefix = 'Console/';
 } else {
 	$prefix = '';
 }
 
-foreach($toTest as $file => $_) {
+foreach (array_keys($toTest) as $file) {
 	$output = array();
 	$cmd = "{$prefix}cake test $file --stderr 2>&1";
 	echo "$cmd\n";
