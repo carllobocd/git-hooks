@@ -12,7 +12,7 @@
  * @access public
  * @return array()
  */
-function config($branch = null)  {
+function config($branch = null) {
 	if (!$branch) {
 		$branch = trim(`git name-rev --name-only HEAD`);
 	}
@@ -24,13 +24,46 @@ function config($branch = null)  {
 
 	$return = array();
 
-	foreach($config as $pattern => $c) {
+	foreach ($config as $pattern => $c) {
 		$pattern = str_replace('*', '.*', $pattern);
 		if (preg_match("@$pattern@", $branch)) {
 			$return += $c;
 		}
 	}
 
+	return $return;
+}
+
+/**
+ * Returns an array of updated references
+ *
+ * pre-receive and post-receive are passed on standard input
+ *    rev-old rev-new ref
+ *    xxxxxxx yyyyyyy refs/heads/master
+ *
+ * The update receives as positional args:
+ *    ref rev-old rev-new
+ *
+ * Normalizes these outputs and returns an array of
+ *    rev-old rev-new ref
+ */
+function updatedRefs() {
+	global $argv;
+
+	if (count($argv) === 4) {
+		return array(
+			array(
+				$argv[2],
+				$argv[3],
+				$argv[1]
+			)
+		);
+	}
+
+	$return = file("php://stdin");
+	foreach ($return as &$string) {
+		$string = explode(trim($string), ' ');
+	}
 	return $return;
 }
 
@@ -48,7 +81,7 @@ function files() {
 		array_shift($files);
 
 		$break = false;
-		foreach($files as $file) {
+		foreach ($files as $file) {
 			if (!is_file($file)) {
 				$break = true;
 				break;
@@ -70,7 +103,7 @@ function files() {
 			$where = implode($locations, ' ');
 		}
 		exec("find $where -type f ! -name '*~' ! -wholename '*.git/*' ! -wholename '*/tmp/*'", $output);
-		foreach($output as $i => &$file) {
+		foreach ($output as $i => &$file) {
 			if (in_array($i, array('.', '..'))) {
 				unset ($output[$i]);
 				continue;
@@ -115,7 +148,7 @@ function copyFiles($files, $name = null) {
 		'files' => array()
 	);
 
-	foreach($files as $i => $file) {
+	foreach ($files as $i => $file) {
 		if (!file_exists($file)) {
 			unset($files[$i]);
 			continue;
@@ -138,7 +171,7 @@ function copyFiles($files, $name = null) {
 		return $return;
 	}
 
-	foreach($files as $file) {
+	foreach ($files as $file) {
 		$dir = dirname($file);
 		$dir = ($dir === '.') ? '' : $dir;
 
