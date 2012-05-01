@@ -34,16 +34,23 @@ foreach ($files as $file) {
 	}
 	$toTest[$file] = true;
 }
+$toTest = array_flip($toTest);
 
 if (file_exists('app/Console/cake')) {
 	$prefix = 'cd app; Console/';
+	foreach ($toTest as &$file) {
+		if (substr($file, 3) === 'app') {
+			$file = preg_replace('@^app[\\\/]@', '', $file);
+		}
+	}
+	unset($file);
 } elseif (file_exists('Console/cake')) {
 	$prefix = 'Console/';
 } else {
 	$prefix = '';
 }
 
-foreach (array_keys($toTest) as $file) {
+foreach ($toTest as $file) {
 	$output = array();
 	$cmd = "{$prefix}cake test $file --stderr 2>&1";
 	echo "$cmd\n";
