@@ -23,9 +23,9 @@ function getSUT($file) {
 }
 
 $files = files();
-$toTest = array();
 $exit = 0;
 
+$toTest = array();
 foreach ($files as $file) {
 	$file = getSUT($file);
 
@@ -34,12 +34,12 @@ foreach ($files as $file) {
 	}
 	$toTest[$file] = true;
 }
-$toTest = array_flip($toTest);
+$toTest = array_keys($toTest);
 
 if (file_exists('app/Console/cake')) {
 	$prefix = 'cd app; Console/';
 	foreach ($toTest as &$file) {
-		if (substr($file, 3) === 'app') {
+		if (substr($file, 0, 3) === 'app') {
 			$file = preg_replace('@^app[\\\/]@', '', $file);
 		}
 	}
