@@ -52,7 +52,7 @@ if (file_exists('app/Console/cake')) {
 
 foreach ($toTest as $file) {
 	$output = array();
-	$cmd = "{$prefix}cake test $file --stderr 2>&1";
+	$cmd = "{$prefix}cake test $file --stop-on-failure --stderr 2>&1";
 	echo "$cmd\n";
 	exec($cmd, $output, $return);
 
