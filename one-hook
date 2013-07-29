@@ -22,15 +22,14 @@ foreach ($config[$file] as $command => $halt) {
     $output = array();
     $return = 0;
 
-    if ($command[0] === '`') {
-        exec(trim($command, '`'), $output, $return);
-    } else {
+	if (file_exists(".git/hooks/$command")) {
         exec(".git/hooks/$command", $output, $return);
+    } else {
+        exec(trim($command, '`'), $output, $return);
     }
     if ($return) {
         echo "FAIL\n";
         $dir = dirname($_SERVER['SCRIPT_FILENAME']);
-        `$dir/misc/playFail`;
 		$exit = 1;
         echo implode("\n", $output) . "\n";
 		if ($halt) {
