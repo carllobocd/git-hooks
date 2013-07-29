@@ -34,10 +34,6 @@ $config = array(
 		'post-commit' => array(
 			'misc/playSuccess',
 		),
-		'post-merge' => array(
-			'php/lint.php',
-			'js/lint.php'
-		),
 		'php' => array(
 			'lint' => array(
 				'pattern' => '/\.php$/'
