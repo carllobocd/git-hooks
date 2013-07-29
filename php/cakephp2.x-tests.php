@@ -36,23 +36,17 @@ foreach ($files as $file) {
 }
 $toTest = array_keys($toTest);
 
-if (file_exists('app/Console/cake')) {
-	$prefix = 'cd app; Console/';
-	foreach ($toTest as &$file) {
-		if (substr($file, 0, 3) === 'app') {
-			$file = preg_replace('@^app[\\\/]@', '', $file);
-		}
-	}
-	unset($file);
-} elseif (file_exists('Console/cake')) {
-	$prefix = 'Console/';
-} else {
-	$prefix = '';
+$prefix = '';
+$config = config();
+if (isset($config['php']['cakephp']['app'])) {
+	$prefix = $config['php']['cakephp']['app'];
+} elseif (file_exists('app/Console/cake')) {
+	$prefix = 'app/';
 }
 
 foreach ($toTest as $file) {
 	$output = array();
-	$cmd = "{$prefix}cake test $file --stop-on-failure --stderr 2>&1";
+	$cmd = "{$prefix}Console/cake test $file --stop-on-failure --stderr 2>&1";
 	echo "$cmd\n";
 	exec($cmd, $output, $return);
 

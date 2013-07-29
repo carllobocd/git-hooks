@@ -1,7 +1,6 @@
 #!/usr/bin/env php
 <?php
 require $_SERVER['PWD'] . '/.git/hooks/utils.php';
-$config = config();
 
 $files = files();
 $tmp = copyFiles($files);
@@ -10,8 +9,9 @@ if (!is_dir($tmp['dir'])) {
 	exit(0);
 }
 
+$config = config();
 $args = $config['php']['phpcs'];
-foreach($args as $key => &$value) {
+foreach ($args as $key => &$value) {
 	if ($value === true) {
 		$value = "$key";
 	} else {
@@ -23,7 +23,7 @@ $cmd = "phpcs " . implode($args, ' ') . " " . escapeshellarg($tmp['dir']);
 echo "$cmd\n";
 exec($cmd, $output, $return);
 if ($return != 0) {
-    $output = str_replace($tmp['dir'] . '/', '', $output);
+	$output = str_replace($tmp['dir'] . '/', '', $output);
 	echo implode("\n", $output), "\n";
 	exit(1);
 }
