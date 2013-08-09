@@ -165,12 +165,6 @@ function copyFiles($files, $name = null) {
 
 	`rm -rf $tmpDir`;
 
-	if (!trim(`echo \$GIT_DIR`) && !trim(`echo \$GIT_AUTHOR_NAME`)) {
-		`cp -R . $tmpDir`;
-		`rm -rf $tmpDir/.git`;
-		return $return;
-	}
-
 	foreach ($files as $file) {
 		$dir = dirname($file);
 		$dir = ($dir === '.') ? '' : $dir;
@@ -181,11 +175,15 @@ function copyFiles($files, $name = null) {
 
 		$file = escapeshellarg($file);
 
-		$blob = trim(`git diff-index --cached HEAD $file | cut -d " " -f4`);
-		if ($blob) {
-			`git cat-file blob $blob > $tmpDir/$file`;
-		} else { // Probably a merge, there is no cached file
-			`git show HEAD:$file > $tmpDir/$file`;
+		if (!trim(`echo \$GIT_DIR`) && !trim(`echo \$GIT_AUTHOR_NAME`)) {
+			`cp $file $tmpDir/$file`;
+		} else {
+			$blob = trim(`git diff-index --cached HEAD $file | cut -d " " -f4`);
+			if ($blob) {
+				`git cat-file blob $blob > $tmpDir/$file`;
+			} else { // Probably a merge, there is no cached file
+				`git show HEAD:$file > $tmpDir/$file`;
+			}
 		}
 	}
 
