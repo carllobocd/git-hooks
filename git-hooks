@@ -32,9 +32,9 @@ install() {
 			if [[ -e $base/config.php ]]; then
 				continue
 			fi
-			commands[$i]="cp $src/$f $base/config.php"
+			commands[$i]="cp $src/$f config.php"
 		else
-			commands[$i]="ln -sf $src/$f $base/"
+			commands[$i]="cp -r $src/$f ."
 		fi
 		let i++
 	done
@@ -45,12 +45,13 @@ install() {
 	remoteHooks="pre-receive update post-receive post-update"
 	hooks="$workingcopyHooks $commitHooks $mailHooks $remoteHooks"
 	for f in $hooks; do
-		commands[$i]="ln -sf $src/one-hook $base/$f"
+		commands[$i]="cp ./one-hook $f"
 		let i++
 	done
-
+	
 	echo "Installing files:"
 	echo ""
+	pushd $base
 	for ((j=0;j<$i;j++)) do
 		if [ -z $dryrun ]; then
 			echo "    ${commands[$j]}"
@@ -60,6 +61,8 @@ install() {
 		fi
 		${commands[$j]}
 	done
+	popd
+	chmod 755 -R .git/hooks/*	
 	echo ""
 	echo "Completed, edit $base/config.php to modify this repositories hooks"
 	exit 0

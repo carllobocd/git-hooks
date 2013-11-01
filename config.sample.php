@@ -43,8 +43,8 @@ $config = array(
 				'-s' => true,
 				'--extensions' => 'php,ctp',
 				'--encoding' => 'UTF-8',
-				'--standard' => 'CakePHP',
-				'--report-width' => trim(`tput cols`)
+				'--standard' => 'PEAR',
+				'--report-width' => 80 
 			)
 		),
 		'js' => array(

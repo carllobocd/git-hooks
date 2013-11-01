@@ -23,9 +23,10 @@ foreach ($config[$file] as $command => $halt) {
     $return = 0;
 
 	if (file_exists(".git/hooks/$command")) {
-        exec(".git/hooks/$command", $output, $return);
+	exec("php .git/hooks/$command", $output, $return);
     } else {
-        exec(trim($command, '`'), $output, $return);
+       print_r($command); 
+	exec(trim($command, '`'), $output, $return);
     }
     if ($return) {
         echo "FAIL\n";
