@@ -20,6 +20,7 @@ $releaseBranches = array(
 		'js/lint.php' => true,
 		'php/phpcs.php' => true,
 		'images/optimize.php' => true,
+		'php/phpcpd.php' => true,
 		//'php/phpunit.php',
 	),
 	'post-commit' => array(
@@ -48,6 +49,15 @@ $config = array(
 		'php' => array(
 			'lint' => array(
 				'pattern' => '/\.php$/'
+			),
+			'phpcpd' => array(
+				'exclude' => array(
+					'classes/facebook-php-sdk',
+					'classes/PHPMailer',
+					'classes/PHPExcel',
+					'classes/DB',
+					'classes/DB.php',
+				)
 			),
 			'phpcs' => array(
 				'-n' => true,
