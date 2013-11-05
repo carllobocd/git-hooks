@@ -22,13 +22,6 @@ $releaseBranches = array(
 		'images/optimize.php' => true,
 		//'php/phpunit.php',
 	),
-	'post-merge' => array(
-		//'flow/commitMessageWarn.php'
-		'php/lint.php' => true,
-		'js/lint.php' => true,
-		'php/phpcs.php' => true,
-		'images/optimize.php' => true,
-	),
 	'post-commit' => array(
 		'misc/playSuccess',
 	),
