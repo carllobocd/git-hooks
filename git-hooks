@@ -12,6 +12,12 @@ install() {
 	src='%sourcedir%'
 	ignore='(^\.|^config\.php$|^install|\.txt$|README.md|~$)'
 
+	if [[ "`uname -o`" = "Cygwin" ]]; then
+		bc="cp -rf"
+	else
+		bc="ln -sf"
+	fi
+
 	if [ -d .git/hooks ]; then
 		base=.git/hooks
 	elif [ -d hooks ]; then
@@ -32,9 +38,9 @@ install() {
 			if [[ -e $base/config.php ]]; then
 				continue
 			fi
-			commands[$i]="cp $src/$f config.php"
+			commands[$i]="$bc $src/$f config.php"
 		else
-			commands[$i]="cp -r $src/$f ."
+			commands[$i]="$bc $src/$f ."
 		fi
 		let i++
 	done
@@ -45,7 +51,7 @@ install() {
 	remoteHooks="pre-receive update post-receive post-update"
 	hooks="$workingcopyHooks $commitHooks $mailHooks $remoteHooks"
 	for f in $hooks; do
-		commands[$i]="cp ./one-hook $f"
+		commands[$i]="$bc ./one-hook $f"
 		let i++
 	done
 	

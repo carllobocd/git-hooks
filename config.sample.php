@@ -13,26 +13,44 @@
  * Anything else present in $config is ignored by the one-hook script, but can be
  * picked up by the individual scripts
  */
+
+$releaseBranches = array(
+	'pre-commit' => array(
+		'php/lint.php' => true,
+		'js/lint.php' => true,
+		'php/phpcs.php' => true,
+		'images/optimize.php' => true,
+		//'php/phpunit.php',
+	),
+	'post-merge' => array(
+		//'flow/commitMessageWarn.php'
+		'php/lint.php' => true,
+		'js/lint.php' => true,
+		'php/phpcs.php' => true,
+		'images/optimize.php' => true,
+	),
+	'post-commit' => array(
+		'misc/playSuccess',
+	),
+);
+
+$developBranches = array(
+	'pre-commit' => array(
+		'php/lint.php' => true,
+		'js/lint.php' => true,
+	),
+);
+
 $config = array(
-	'master' => array(),
-	'develop' => array(),
-	'feature/*' => array(),
-	'release/*' => array(),
-	'hotfix/*' => array(),
-	'support/*' => array(),
+	'master' => $releaseBranches,
+	'develop' => $releaseBranches,
+	'feature/*' => $developBranches,
+	'release/*' => $releaseBranches,
+	'hotfix/*' => $developBranches,
+	'support/*' => $developBranches,
 	'*' => array(
-		'pre-commit' => array(
-			'php/lint.php' => true,
-			'js/lint.php' => true,
-			'php/phpcs.php',
-			'php/phpunit.php',
-			'images/optimize.php',
-		),
 		'prepare-commit-msg' => array(
-			//'flow/commitMessageWarn.php'
-		),
-		'post-commit' => array(
-			'misc/playSuccess',
+				'flow/commitMessageWarn.php'
 		),
 		'php' => array(
 			'lint' => array(
@@ -41,9 +59,9 @@ $config = array(
 			'phpcs' => array(
 				'-n' => true,
 				'-s' => true,
-				'--extensions' => 'php,ctp',
+				'--extensions' => 'php,ctp,js,css',
 				'--encoding' => 'UTF-8',
-				'--standard' => 'PEAR',
+				'--standard' => '.git/hooks/standard/ruleset.xml',
 				'--report-width' => 80 
 			)
 		),

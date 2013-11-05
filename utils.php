@@ -14,7 +14,7 @@
  */
 function config($branch = null) {
 	if (!$branch) {
-		$branch = trim(`git name-rev --name-only HEAD`);
+		$branch = trim(`git symbolic-ref --short -q HEAD`);
 	}
 	require '.git/hooks/config.php';
 
