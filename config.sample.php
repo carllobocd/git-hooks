@@ -46,6 +46,9 @@ $config = array(
 		'prepare-commit-msg' => array(
 				'flow/commitMessageWarn.php'
 		),
+		'post-merge' => array(
+				'db/dbdeploy.php'
+		),
 		'php' => array(
 			'lint' => array(
 				'pattern' => '/\.php$/'
