@@ -14,7 +14,7 @@
  */
 function config($branch = null) {
 	if (!$branch) {
-		$branch = trim(`git symbolic-ref --short -q HEAD`);
+		$branch = trim(`git symbolic-ref -q HEAD | sed -e 's/refs\/heads\///g'`);
 	}
 	require '.git/hooks/config.php';
 

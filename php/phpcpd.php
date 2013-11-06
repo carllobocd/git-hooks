@@ -34,8 +34,9 @@ foreach ($args as $key => &$value) {
 $cmd = "phpcpd " . implode($cmdline, ' ') . " " . escapeshellarg($tmp['dir']);
 echo "$cmd\n";
 exec($cmd, $output, $return);
-if ($return != 0) {
+$output = implode("\n", $output);
+if (($return != 0) && (strpos($output, 'No files found to scan') === false)) {
 	$output = str_replace($tmp['dir'] . '/', '', $output);
-	echo implode("\n", $output), "\n";
+	echo "$output\n";
 	exit(1);
 }
