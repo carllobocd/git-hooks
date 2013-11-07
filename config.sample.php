@@ -36,7 +36,12 @@ $developBranches = array(
 );
 
 $config = array(
-	'master' => $releaseBranches,
+	'master' => array(),
+	'brazil' => array(),
+	'india' => array(),
+	'indonesia' => array(),
+	'poland' => array(),
+	'turkey' => array(),
 	'develop' => $releaseBranches,
 	'feature/*' => $developBranches,
 	'release/*' => $releaseBranches,
