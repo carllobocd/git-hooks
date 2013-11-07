@@ -8,7 +8,14 @@ if (!empty($argv[1])) {
 	$file = $argv[1];
 }
 
-if (strpos($file, 'MERGE') !== false || strpos($file, 'SQUASH') !== false) {
+if (in_array($currentBranch, array('master', 'brazil', 'india', 'indonesia', 'poland', 'turkey'))) {
+	$commitMessage = file($file);
+	array_unshift($commitMessage, "# YOU ARE ON $currentBranch\n\n# Committing to this branch requires authorization and you could be PENALIZED\n\n# I hope you know what you're doing\n\n");
+	$commitMessage = implode($commitMessage);
+	file_put_contents($file, $commitMessage);
+}
+
+if (file_exists('.git/MERGE_MSG') || file_exists('.git/SQUASH_MSG')) {
 	return;
 }
 
@@ -29,9 +36,10 @@ if (!$usingGitFlow) {
 	return;
 }
 
-if (in_array($currentBranch, array('develop', 'master'))) {
+if (in_array($currentBranch, array('develop'))) {
 	$commitMessage = file($file);
 	array_unshift($commitMessage, "# YOU ARE ON $currentBranch - USE A FEATURE BRANCH\n\n");
 	$commitMessage = implode($commitMessage);
 	file_put_contents($file, $commitMessage);
 }
+
