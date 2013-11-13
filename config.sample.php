@@ -78,7 +78,11 @@ $config = array(
 		),
 		'js' => array(
 			'lint' => array(
-				'pattern' => '/\.js$/'
+				'pattern' => '/\.js$/',
+				'predef' => array(
+					'\'$\'',
+					'document',
+				)
 			)
 		)
 	)
