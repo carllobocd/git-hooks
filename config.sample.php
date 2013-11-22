@@ -89,7 +89,7 @@ $config = array(
 				)
 			),
 			'minify' => array(
-				'pattern' => '/(\.css|\.js)$/',
+				'pattern' => '/\.js$/',
 			)
 		)
 	)
