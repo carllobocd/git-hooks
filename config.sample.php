@@ -36,7 +36,11 @@ $developBranches = array(
 );
 
 $config = array(
-	'master' => array(),
+	'master' => array(
+             'pre-commit' => array(
+		'js/minify.php' => true,
+             )
+	),
 	'brazil' => array(),
 	'india' => array(),
 	'indonesia' => array(),
@@ -83,6 +87,9 @@ $config = array(
 					'\'$\'',
 					'document',
 				)
+			),
+			'minify' => array(
+				'pattern' => '/(\.css|\.js)$/',
 			)
 		)
 	)
